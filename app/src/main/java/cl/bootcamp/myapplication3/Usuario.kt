@@ -25,3 +25,4 @@ Copiar
 // Mostrar datos de los usuarios
 usuario1.mostrarDatos()
 usuario2.mostrarDatos()
+}
