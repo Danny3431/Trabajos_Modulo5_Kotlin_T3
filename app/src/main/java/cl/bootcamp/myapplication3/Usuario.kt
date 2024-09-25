@@ -21,7 +21,7 @@ val usuario1 = Usuario(nombre = "Maria", edad = 30, trabajo = "Ingeniera")
 val usuario2 = Usuario(nombre = "Pedro", edad = 25, trabajo = null, referencia = usuario1)
 
 
-Copiar
+
 // Mostrar datos de los usuarios
 usuario1.mostrarDatos()
 usuario2.mostrarDatos()
