@@ -1,67 +1,63 @@
 package cl.bootcamp.myapplication3
 
-class Usuario(
+data class Usuario(
     val nombre: String,
     val edad: Int,
-    val trabajo: String? = null,         // Trabajo puede ser nulo
-    val referencia: Usuario? = null      // Referencia puede ser otro Usuario, o nulo
-) {
-    fun mostrarDatos() {
-        println("Nombre: $nombre")
-        println("Edad: $edad")
-        println("Trabajo: ${trabajo ?: "No especificado"}")
-        println("Referencia: ${referencia?.nombre ?: "Ninguna"}")
-        println("*************************************") // Línea separadora
-    }
-}
+    val trabajo: String? = null,
+    val referencia: String? = null,
 
-class ListaUsuarios {
+)
+
+class GestorUsuarios {
     private val usuarios = mutableListOf<Usuario>()
 
     fun agregarUsuario(usuario: Usuario) {
         usuarios.add(usuario)
     }
 
-    fun eliminarUsuario(nombre: String) {
-        usuarios.removeIf { it.nombre == nombre }
+    fun eliminarUsuario(indice: Int) {
+        if (indice in usuarios.indices) {
+            usuarios.removeAt(indice)
+        } else {
+            println("Índice fuera de rango: $indice")
+        }
     }
 
     fun mostrarLista() {
         if (usuarios.isEmpty()) {
             println("No hay usuarios en la lista.")
-        } else {
-            for (usuario in usuarios) {
-                usuario.mostrarDatos()
-            }
+            return
+        }
+
+        println("\nLista de Usuarios:")
+        for ((index, usuario) in usuarios.withIndex()) {
+            println("Usuario ${index + 1}:")
+            println("Nombre: ${usuario.nombre}")
+            println("Edad: ${usuario.edad}")
+            println("Trabajo: ${usuario.trabajo ?: "N/A"}")
+            println("Referencia: ${usuario.referencia ?: "N/A"}")
+            println("-------------------------")
         }
     }
 }
 
 fun main() {
-    val listaUsuarios = ListaUsuarios()
+    val gestor = GestorUsuarios()
 
-    // Crear usuarios y agregarlos a la lista
-    val usuario1 = Usuario(nombre = "Maria", edad = 30, trabajo = "Ingeniera")
-    val usuario2 = Usuario(nombre = "Pedro", edad = 25, trabajo = null, referencia = usuario1)
-    val usuario3 = Usuario(nombre = "Rodrigo", edad = 35, trabajo = "Arquitecto")
-    val usuario4 = Usuario(nombre = "David", edad = 28, trabajo = "Diseñador", referencia = usuario3)
-    val usuario5 = Usuario(nombre = "Jimena", edad = 32, trabajo = "Contadora")
+    // Agregar cinco usuarios
+    gestor.agregarUsuario(Usuario("Maria", 30, "Ingeniera", null))
+    gestor.agregarUsuario(Usuario("Pedro", 25,  null ,  "Referencia1"))
+    gestor.agregarUsuario(Usuario("Rodrigo", 35, "Arquitecto", null))
+    gestor.agregarUsuario(Usuario("Ana", 28, "Diseñadora", "Referencia2"))
+    gestor.agregarUsuario(Usuario("Luis", 35, null, null))
 
-    // Agregar usuarios a la lista
-    listaUsuarios.agregarUsuario(usuario1)
-    listaUsuarios.agregarUsuario(usuario2)
-    listaUsuarios.agregarUsuario(usuario3)
-    listaUsuarios.agregarUsuario(usuario4)
-    listaUsuarios.agregarUsuario(usuario5)
+    // Mostrar la lista de usuarios
+    gestor.mostrarLista()
 
-    // Mostrar lista de usuarios
-    println("Lista de Usuarios:")
-    listaUsuarios.mostrarLista()
+    // Eliminar un usuario (por ejemplo, el segundo)
+    gestor.eliminarUsuario(3) // Elimina a Ana
 
-    // Eliminar un usuario (ejemplo: eliminar a "David")
-    listaUsuarios.eliminarUsuario("David")
-
-    // Mostrar lista de usuarios después de la eliminación
-    println("Lista de Usuarios después de eliminar a David:")
-    listaUsuarios.mostrarLista()
+    // Volver a mostrar la lista de usuarios
+    gestor.mostrarLista()
 }
+
